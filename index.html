@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Sitio Web Gatuno</title>
+    <!-- Tipografía suave y moderna -->
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* Paleta verde pastel muy bonita y tierna */
+            --bg-pastel: #e2f0d9;
+            --bg-card: #ffffff;
+            --primary: #6da373;
+            --primary-hover: #588a5e;
+            --primary-light: #f0f7ed;
+            --text-color: #385e3c;
+            --text-dark: #2f3e2e;
+            --border-color: #cce3c3;
+            --code-bg: #eef6ec;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Quicksand', sans-serif;
+            background-color: var(--bg-pastel);
+            color: var(--text-dark);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+
+        /* Barra de Navegación */
+        nav {
+            background-color: var(--bg-card);
+            padding: 12px 24px;
+            border-radius: 50px;
+            box-shadow: 0 6px 20px rgba(109, 163, 115, 0.15);
+            margin-bottom: 25px;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: center;
+            border: 2px solid var(--border-color);
+        }
+
+        nav a {
+            text-decoration: none;
+            color: var(--text-color);
+            padding: 8px 18px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            background-color: transparent;
+        }
+
+        nav a:hover {
+            background-color: var(--primary);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        /* Contenedor Principal */
+        .container {
+            width: 100%;
+            max-width: 950px;
+        }
+
+        /* Estilos de las Secciones / Páginas */
+        .page {
+            display: none; /* Ocultas por defecto */
+            background: var(--bg-card);
+            border-radius: 25px;
+            padding: 40px;
+            box-shadow: 0 12px 35px rgba(109, 163, 115, 0.12);
+            border: 2px solid var(--border-color);
+        }
+
+        /* Navegación mediante :target (sin JavaScript) */
+        .page:target {
+            display: block;
+            animation: fadeIn 0.4s ease-in-out;
+        }
+
+        /* Si no hay ninguna sección seleccionada en la URL, muestra la primera */
+        #pag1:target ~ #pag1,
+        body:not(:has(:target)) #pag1 {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Encabezados y Textos */
+        h1, h2, h3, h4 {
+            color: var(--text-color);
+            margin-bottom: 15px;
+            font-weight: 700;
+            text-align: center;
+        }
+
+        h1 { font-size: 2.3rem; }
+        h4 { font-size: 1.5rem; }
+
+        p {
+            font-size: 1.05rem;
+            color: #556b53;
+            margin-bottom: 20px;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        /* Imágenes de Gatos */
+        .img-box {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            max-height: 320px;
+            border-radius: 20px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+            border: 4px solid var(--primary-light);
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        img:hover {
+            transform: scale(1.03) rotate(1deg);
+        }
+
+        /* Estilos para Video y Audio */
+        .media-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            margin: 25px 0;
+        }
+
+        video {
+            width: 100%;
+            max-width: 560px;
+            height: auto;
+            border-radius: 18px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            border: 3px solid var(--primary-light);
+            background-color: #000;
+        }
+
+        audio {
+            width: 100%;
+            max-width: 500px;
+            border-radius: 30px;
+            outline: none;
+        }
+
+        /* Caja explicativa de código HTML */
+        .explanation-box {
+            background-color: var(--code-bg);
+            border: 2px dashed var(--primary);
+            border-radius: 18px;
+            padding: 20px;
+            margin-top: 25px;
+            text-align: left;
+        }
+
+        .explanation-box h3 {
+            text-align: left;
+            margin-bottom: 10px;
+        }
+
+        .explanation-box ul {
+            margin-left: 20px;
+            margin-top: 10px;
+            color: #436342;
+            font-weight: 600;
+        }
+
+        .explanation-box li {
+            margin-bottom: 8px;
+        }
+
+        code {
+            background-color: #dbeed8;
+            padding: 3px 8px;
+            border-radius: 6px;
+            font-family: monospace;
+            color: #2b542c;
+            font-weight: bold;
+        }
+
+        /* Contenedor de Etiquetas (Glosario) */
+        .tags-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 15px;
+            margin-top: 25px;
+            max-height: 500px;
+            overflow-y: auto;
+            padding: 10px;
+            border: 1px solid var(--border-color);
+            border-radius: 15px;
+            background: #fafdf8;
+        }
+
+        .tag-card {
+            background: white;
+            border: 1px solid var(--border-color);
+            padding: 12px 15px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(109, 163, 115, 0.05);
+        }
+
+        .tag-card code {
+            display: inline-block;
+            margin-bottom: 5px;
+        }
+
+        .tag-card p {
+            font-size: 0.9rem;
+            text-align: left;
+            color: #556b53;
+            margin-bottom: 0;
+        }
+
+        /* Botón estándar */
+        .btn {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 12px 28px;
+            font-size: 1.05rem;
+            font-weight: 700;
+            border-radius: 30px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(109, 163, 115, 0.3);
+            display: inline-block;
+            margin: 10px auto;
+            transition: all 0.3s ease;
+        }
+
+        .btn:hover {
+            background-color: var(--primary-hover);
+            transform: translateY(-2px);
+        }
+
+        .btn-container {
+            text-align: center;
+        }
+
+        /* Enlaces internos bonitos tipo botón */
+        .link-group {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 25px;
+            flex-wrap: wrap;
+        }
+
+        .link-group a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 700;
+            background: var(--primary-light);
+            padding: 10px 20px;
+            border-radius: 15px;
+            border: 1px solid var(--border-color);
+            transition: all 0.2s ease;
+        }
+
+        .link-group a:hover {
+            background-color: var(--primary);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        /* Lista de Meses */
+        .months-list {
+            list-style: none;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 12px;
+            margin-top: 20px;
+        }
+
+        .months-list li {
+            background: var(--primary-light);
+            padding: 14px;
+            text-align: center;
+            border-radius: 15px;
+            font-weight: 700;
+            color: var(--text-color);
+            border: 1px solid var(--border-color);
+            transition: transform 0.2s;
+        }
+
+        .months-list li:hover {
+            transform: translateY(-3px);
+            background-color: var(--primary);
+            color: white;
+        }
+
+        /* Tabla de Horario Escolar */
+        .table-responsive {
+            overflow-x: auto;
+            margin-top: 20px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            border: 1px solid var(--border-color);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: white;
+            text-align: center;
+            font-size: 0.9rem;
+        }
+
+        th, td {
+            padding: 14px 10px;
+            border: 1px solid var(--border-color);
+        }
+
+        th {
+            background-color: var(--primary);
+            color: white;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+
+        td {
+            color: #4a5d48;
+            vertical-align: middle;
+            font-weight: 600;
+        }
+
+        tr:nth-child(even) td {
+            background-color: #f7faf5;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Barra de Navegación con links puros -->
+    <nav>
+        <a href="#pag1">Página 1</a>
+        <a href="#pag2">Página 2</a>
+        <a href="#pag-link">Gatitos & Links</a>
+        <a href="#pag-media">Video & Audio</a>
+        <a href="#pag-etiquetas">Etiquetas 📚</a>
+        <a href="#pag-meses">Meses</a>
+        <a href="#pag-horario">Horario</a>
+    </nav>
+
+    <div class="container">
+
+        <!-- SECCIÓN 1 -->
+        <section id="pag1" class="page">
+            <h1>MI PRIMERA PÁGINA</h1>
+            <p>¡VOY A PODER CON TODO! 🐾</p>
+            <div class="img-box">
+                <img src="https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?auto=format&fit=crop&w=800&q=80" alt="Gatito tierno">
+            </div>
+            <h3>CREAR HIPERVÍNCULO</h3>
+            <div class="link-group">
+                <a href="#pag1">Ir a pág 1</a>
+                <a href="#pag2">Ir a pág 2</a>
+                <a href="#pag-media">Ver Multimedia</a>
+                <a href="#pag-etiquetas">Ver Etiquetas</a>
+                <a href="#pag-horario">Ver Horario</a>
+            </div>
+        </section>
+
+        <!-- SECCIÓN 2 -->
+        <section id="pag2" class="page">
+            <h4>Aprendiendo a usar links</h4>
+            <p>¡Navega por las secciones de manera muy fácil!</p>
+            <div class="link-group">
+                <a href="#pag1">Voy a pág principal</a>
+                <a href="#pag-link">Ver sección de gatos</a>
+            </div>
+        </section>
+
+        <!-- SECCIÓN 3 -->
+        <section id="pag-link" class="page">
+            <h1>MI ZONA DE GATOS</h1>
+            <p>¡Mucho amor felino y enlaces funcionales!</p>
+            
+            <div class="btn-container">
+                <input type="button" class="btn" value="¡Click aquí, miau!"/>
+            </div>
+
+            <div class="img-box">
+                <img src="https://images.unsplash.com/photo-1533738363-b7f9aef128ce?auto=format&fit=crop&w=800&q=80" alt="Gatito curioso">
+            </div>
+
+            <div class="link-group">
+                <a href="#pag1">Voy a pág principal</a>
+                <a href="#pag2">Ir a pág 2</a>
+            </div>
+        </section>
+
+        <!-- SECCIÓN DE MULTIMEDIA -->
+        <section id="pag-media" class="page">
+            <h1>SECCIÓN DE MULTIMEDIA 🐾</h1>
+            <p>Video de gato y reproductor de audio integrados.</p>
+
+            <div class="media-container">
+                <h3>Video de gato</h3>
+                <video controls width="560" height="315">
+                    <source src="videoplayback.mp4" type="video/mp4">
+                    Tu navegador no soporta la reproducción de video.
+                </video>
+
+                <h3>Reproductor de Audio</h3>
+                <audio controls>
+                    <source src="WhatsApp Audio 2026-10-15 at 6.34.18 PM.mpeg" type="audio/mpeg">
+                    Tu navegador no soporta el elemento de audio.
+                </audio>
+            </div>
+
+            <div class="explanation-box">
+                <h3>💡 ¿Cómo poner Audio y Video en HTML?</h3>
+                <p style="text-align: left; margin-bottom: 10px;">Para agregar contenido multimedia a tu página web sin usar programas externos o scripts complejos, HTML5 nos da dos etiquetas nativas muy sencillas:</p>
+                <ul>
+                    <li>
+                        <strong>Para Reproducir Audio (<code>&lt;audio&gt;</code>):</strong> 
+                        Usa la etiqueta <code>&lt;audio controls&gt;</code>. El atributo <code>controls</code> muestra los botones de Play, Pausa y Volumen. Dentro añades <code>&lt;source src="archivo.mp3" type="audio/mpeg"&gt;</code> para indicar dónde está guardado el archivo de música o nota de voz.
+                    </li>
+                    <li>
+                        <strong>Para Reproducir Video (<code>&lt;video&gt;</code> o <code>&lt;iframe&gt;</code>):</strong> 
+                        Si el video es un archivo local (ej. <code>videoplayback.mp4</code>), usa <code>&lt;video controls&gt;</code> con sus dimensiones (<code>width</code> y <code>height</code>). Si proviene de plataformas externas como YouTube o Vimeo, se utiliza la etiqueta <code>&lt;iframe src="..."&gt;</code>.
+                    </li>
+                </ul>
+            </div>
+
+            <div class="link-group">
+                <a href="#pag1">Volver a inicio</a>
+                <a href="#pag-etiquetas">Ver Etiquetas</a>
+            </div>
+        </section>
+
+        <!-- NUEVA SECCIÓN DE ETIQUETAS (65+ ETIQUETAS) -->
+        <section id="pag-etiquetas" class="page">
+            <h1>GUÍA DE ETIQUETAS HTML 📚</h1>
+            <p>Sintaxis y explicación de tus etiquetas solicitadas y más de 50 esenciales.</p>
+
+            <div class="tags-grid">
+                <!-- Solicitadas específicamente -->
+                <div class="tag-card">
+                    <code>&lt;p&gt;</code>
+                    <p><strong>Párrafo:</strong> Define un bloque de texto general.<br><em>Sintaxis:</em> <code>&lt;p&gt;Texto&lt;/p&gt;</code></p>
+                </div>
+                <div class="tag-card">
+                    <code>&lt;li&gt;</code>
+                    <p><strong>Elemento de lista:</strong> Define un ítem dentro de listas (&lt;ul&gt; o &lt;ol&gt;).<br><em>Sintaxis:</em> <code>&lt;li&gt;Elemento&lt;/li&gt;</code></p>
+                </div>
+                <div class="tag-card">
+                    <code>att (Atributo)</code>
+                    <p><strong>Atributo:</strong> Propiedad dentro de etiquetas (ej: id, class).<br><em>Sintaxis:</em> <code>&lt;tag atributo="valor"&gt;</code></p>
+                </div>
+                <div class="tag-card">
+                    <code>&lt;h1&gt;</code>
+                    <p><strong>Encabezado principal:</strong> Título más importante (H1 a H6).<br><em>Sintaxis:</em> <code>&lt;h1&gt;Título&lt;/h1&gt;</code></p>
+                </div>
+                <div class="tag-card">
+                    <code>&lt;head&gt;</code>
+                    <p><strong>Cabecera oculta:</strong> Metadatos, título de pestaña y estilos.<br><em>Sintaxis:</em> <code>&lt;head&gt;...&lt;/head&gt;</code></p>
+                </div>
+                <div class="tag-card">
+                    <code>&lt;html&gt;</code>
+                    <p><strong>Raíz HTML:</strong> Contenedor principal de todo el documento.<br><em>Sintaxis:</em> <code>&lt;html lang="es"&gt;...&lt;/html&gt;</code></p>
+                </div>
+                <div class="tag-card">
+                    <code>&lt;table&gt;</code>
+                    <p><strong>Tabla:</strong> Contenedor para crear tablas de datos.<br><em>Sintaxis:</em> <code>&lt;table border="1"&gt;...&lt;/table&gt;</code></p>
+                </div>
+                <div class="tag-card">
+                    <code>&lt;br&gt;</code>
+                    <p><strong>Salto de línea:</strong> Rompe la línea de texto actual.<br><em>Sintaxis:</em> <code>&lt;br&gt;</code></p>
+                </div>
+                <div class="tag-card">
+                    <code>&lt;img&gt;</code>
+                    <p><strong>Imagen:</strong> Inserta una imagen multimedia.<br><em>Sintaxis:</em> <code>&lt;img src="foto.jpg" alt="texto"&gt;</code></p>
+                </div>
+                <div class="tag-card">
+                    <code>&lt;video&gt;</code>
+                    <p><strong>Video:</strong> Reproductor de video nativo.<br><em>Sintaxis:</em> <code>&lt;video controls&gt;&lt;source src="v.mp4"&gt;&lt;/video&gt;</code></p>
+                </div>
+                <div class="tag-card">
+                    <code>&lt;audio&gt;</code>
+                    <p><strong>Audio:</strong> Reproductor de sonido nativo.<br><em>Sintaxis:</em> <code>&lt;audio controls&gt;&lt;source src="a.mp3"&gt;&lt;/audio&gt;</code></p>
+                </div>
+                <div class="tag-card">
+                    <code>&lt;button&gt;</code>
+                    <p><strong>Botón interactivo:</strong> Botón clickeable en formularios o páginas.<br><em>Sintaxis:</em> <code>&lt;button&gt;Click&lt;/button&gt;</code></p>
+                </div>
+                <div class="tag-card">
+                    <code>&lt;input&gt;</code>
+                    <p><strong>Campo de entrada:</strong> Entradas de texto, botones, checkboxes.<br><em>Sintaxis:</em> <code>&lt;input type="text"&gt;</code></p>
+                </div>
+                <div class="tag-card">
+                    <code>&lt;select&gt;</code>
+                    <p><strong>Menú desplegable:</strong> Lista de opciones seleccionables.<br><em>Sintaxis:</em> <code>&lt;select&gt;&lt;option&gt;Opción&lt;/option&gt;&lt;/select&gt;</code></p>
+                </div>
+                <div class="tag-card">
+                    <code>&lt;hr&gt;</code>
+                    <p><strong>Línea horizontal:</strong> Separador visual de contenido.<br><em>Sintaxis:</em> <code>&lt;hr&gt;</code></p>
+                </div>
+                <div class="tag-card">
+                    <code>&lt;a&gt; (ir)</code>
+                    <p><strong>Hipervínculo:</strong> Enlace para navegar a otras páginas o secciones.<br><em>Sintaxis:</em> <code>&lt;a href="url"&gt;Enlace&lt;/a&gt;</code></p>
+                </div>
+                <div class="tag-card">
+                    <code>&lt;label&gt;</code>
+                    <p><strong>Etiqueta de formulario:</strong> Texto descriptivo para inputs.<br><em>Sintaxis:</em> <code>&lt;label&gt;Nombre:&lt;/label&gt;</code></p>
+                </div>
+                <div class="tag-card">
+                    <code>&lt;menu&gt;</code>
+                    <p><strong>Menú de comandos:</strong> Lista de opciones o comandos interactivos.<br><em>Sintaxis:</em> <code>&lt;menu&gt;&lt;li&gt;Opción&lt;/li&gt;&lt;/menu&gt;</code></p>
+                </div>
+
+                <!-- 50 Etiquetas adicionales esenciales -->
+                <div class="tag-card"><code>&lt;!DOCTYPE html&gt;</code><p>Define la versión de HTML5.</p></div>
+                <div class="tag-card"><code>&lt;body&gt;</code><p>Cuerpo visible de la página.</p></div>
+                <div class="tag-card"><code>&lt;h2&gt; a &lt;h6&gt;</code><p>Encabezados secundarios.</p></div>
+                <div class="tag-card"><code>&lt;a&gt;</code><p>Ancla o enlace web.</p></div>
+                <div class="tag-card"><code>&lt;ul&gt;</code><p>Lista desordenada (con viñetas).</p></div>
+                <div class="tag-card"><code>&lt;ol&gt;</code><p>Lista ordenada (con números).</p></div>
+                <div class="tag-card"><code>&lt;div&gt;</code><p>Contenedor genérico en bloque.</p></div>
+                <div class="tag-card"><code>&lt;span&gt;</code><p>Contenedor genérico en línea.</p></div>
+                <div class="tag-card"><code>&lt;strong&gt;</code><p>Texto en negrita con importancia.</p></div>
+                <div class="tag-card"><code>&lt;em&gt;</code><p>Texto en cursiva con énfasis.</p></div>
+                <div class="tag-card"><code>&lt;b&gt;</code><p>Texto en negrita simple.</p></div>
+                <div class="tag-card"><code>&lt;i&gt;</code><p>Texto en cursiva simple.</p></div>
+                <div class="tag-card"><code>&lt;u&gt;</code><p>Texto subrayado.</p></div>
+                <div class="tag-card"><code>&lt;s&gt;</code><p>Texto tachado.</p></div>
+                <div class="tag-card"><code>&lt;code&gt;</code><p>Código fuente de computadora.</p></div>
+                <div class="tag-card"><code>&lt;pre&gt;</code><p>Texto preformateado (respeta espacios).</p></div>
+                <div class="tag-card"><code>&lt;blockquote&gt;</code><p>Cita larga en bloque.</p></div>
+                <div class="tag-card"><code>&lt;q&gt;</code><p>Cita corta en línea.</p></div>
+                <div class="tag-card"><code>&lt;mark&gt;</code><p>Texto resaltado (marcatextos).</p></div>
+                <div class="tag-card"><code>&lt;small&gt;</code><p>Texto pequeño (letra chica).</p></div>
+                <div class="tag-card"><code>&lt;sub&gt;</code><p>Texto subíndice (abajo).</p></div>
+                <div class="tag-card"><code>&lt;sup&gt;</code><p>Texto superíndice (arriba).</p></div>
+                <div class="tag-card"><code>&lt;tr&gt;</code><p>Fila de tabla.</p></div>
+                <div class="tag-card"><code>&lt;th&gt;</code><p>Celda de encabezado en tabla.</p></div>
+                <div class="tag-card"><code>&lt;td&gt;</code><p>Celda de datos en tabla.</p></div>
+                <div class="tag-card"><code>&lt;thead&gt;</code><p>Cabecera agrupada de tabla.</p></div>
+                <div class="tag-card"><code>&lt;tbody&gt;</code><p>Cuerpo agrupado de tabla.</p></div>
+                <div class="tag-card"><code>&lt;tfoot&gt;</code><p>Pie agrupado de tabla.</p></div>
+                <div class="tag-card"><code>&lt;form&gt;</code><p>Formulario de usuario.</p></div>
+                <div class="tag-card"><code>&lt;textarea&gt;</code><p>Caja de texto grande.</p></div>
+                <div class="tag-card"><code>&lt;option&gt;</code><p>Opción dentro de select.</p></div>
+                <div class="tag-card"><code>&lt;fieldset&gt;</code><p>Agrupador de campos de formulario.</p></div>
+                <div class="tag-card"><code>&lt;legend&gt;</code><p>Título para fieldset.</p></div>
+                <div class="tag-card"><code>&lt;header&gt;</code><p>Cabecera semántica de la página.</p></div>
+                <div class="tag-card"><code>&lt;footer&gt;</code><p>Pie de página semántico.</p></div>
+                <div class="tag-card"><code>&lt;nav&gt;</code><p>Sección de navegación.</p></div>
+                <div class="tag-card"><code>&lt;main&gt;</code><p>Contenido principal único.</p></div>
+                <div class="tag-card"><code>&lt;section&gt;</code><p>Sección temática general.</p></div>
+                <div class="tag-card"><code>&lt;article&gt;</code><p>Artículo de contenido independiente.</p></div>
+                <div class="tag-card"><code>&lt;aside&gt;</code><p>Contenido lateral o barra lateral.</p></div>
+                <div class="tag-card"><code>&lt;figure&gt;</code><p>Contenedor de elementos multimedia.</p></div>
+                <div class="tag-card"><code>&lt;figcaption&gt;</code><p>Leyenda o pie de figura.</p></div>
+                <div class="tag-card"><code>&lt;iframe&gt;</code><p>Marco flotante (incrustar webs o videos).</p></div>
+                <div class="tag-card"><code>&lt;canvas&gt;</code><p>Lienzo para gráficos por script.</p></div>
+                <div class="tag-card"><code>&lt;svg&gt;</code><p>Gráficos vectoriales escalables.</p></div>
+                <div class="tag-card"><code>&lt;meta&gt;</code><p>Metadatos del documento (charset, viewport).</p></div>
+                <div class="tag-card"><code>&lt;title&gt;</code><p>Título de la pestaña del navegador.</p></div>
+                <div class="tag-card"><code>&lt;link&gt;</code><p>Enlazar recursos externos (CSS, fuentes).</p></div>
+                <div class="tag-card"><code>&lt;script&gt;</code><p>Incrustar o enlazar código JavaScript.</p></div>
+                <div class="tag-card"><code>&lt;style&gt;</code><p>Incrustar hojas de estilo CSS.</p></div>
+            </div>
+
+            <div class="link-group">
+                <a href="#pag1">Volver al inicio</a>
+                <a href="#pag-horario">Ver Horario</a>
+            </div>
+        </section>
+
+        <!-- SECCIÓN 4: MESES -->
+        <section id="pag-meses" class="page">
+            <h1>Meses del Año 🐱</h1>
+            <ul class="months-list">
+                <li>Enero</li>
+                <li>Febrero</li>
+                <li>Marzo</li>
+                <li>Abril</li>
+                <li>Mayo</li>
+                <li>Junio</li>
+                <li>Julio</li>
+                <li>Agosto</li>
+                <li>Septiembre</li>
+                <li>Octubre</li>
+                <li>Noviembre</li>
+                <li>Diciembre</li>
+            </ul>
+        </section>
+
+        <!-- SECCIÓN 5: HORARIO ESCOLAR -->
+        <section id="pag-horario" class="page">
+            <h1>HORARIO PICHURRIENTO GATUNO</h1>
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>HORAS</th>
+                            <th>LUNES</th>
+                            <th>MARTES</th>
+                            <th>MIÉRCOLES</th>
+                            <th>JUEVES</th>
+                            <th>VIERNES</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>7-8</td>
+                            <td rowspan="2">APLICACIONES DEL<br>PENSAMIENTO MATEMÁTICO</td>
+                            <td rowspan="2">LA ENERGÍA EN<br>LOS PROCESOS DE<br>LA VIDA DIARIA</td>
+                            <td>—</td>
+                            <td rowspan="2">LA ENERGÍA EN<br>LOS PROCESOS DE<br>LA VIDA DIARIA</td>
+                            <td>ÁMBITO DE FORMACIÓN<br>SOCIOEMOCIONAL V:<br>ACTIVIDADES ARTÍSTICAS</td>
+                        </tr>
+                        <tr>
+                            <td>8-9</td>
+                            <td rowspan="2">IMPLEMENTA<br>APLICACIONES WEB</td>
+                            <td rowspan="2">CONSTRUYE<br>APLICACIONES WEB</td>
+                        </tr>
+                        <tr>
+                            <td>9-10</td>
+                            <td>TEMAS SELECTOS<br>DE MATEMÁTICAS II</td>
+                            <td>CONCIENCIA HISTÓRICA II:<br>MÉXICO EXPANSIONISMO</td>
+                            <td rowspan="2">CONCIENCIA HISTÓRICA II:<br>MÉXICO EXPANSIONISMO</td>
+                        </tr>
+                        <tr>
+                            <td>10-11</td>
+                            <td rowspan="2">CONSTRUYE<br>APLICACIONES WEB</td>
+                            <td>IMPLEMENTA<br>APLICACIONES WEB</td>
+                            <td rowspan="2">INGLÉS V</td>
+                            <td rowspan="2">IMPLEMENTA<br>APLICACIONES WEB</td>
+                        </tr>
+                        <tr>
+                            <td>11-12</td>
+                            <td rowspan="3">CONSTRUYE<br>APLICACIONES WEB</td>
+                            <td>APLICACIONES DEL<br>PENSAMIENTO MATEMÁTICO</td>
+                        </tr>
+                        <tr>
+                            <td>12-13</td>
+                            <td rowspan="2">INGLÉS V</td>
+                            <td rowspan="2">TEMAS SELECTOS<br>DE MATEMÁTICAS II</td>
+                            <td>ÁMBITO DE FORMACIÓN<br>SOCIOEMOCIONAL V</td>
+                            <td rowspan="2">TEMAS SELECTOS<br>DE MATEMÁTICAS II</td>
+                        </tr>
+                        <tr>
+                            <td>13-14</td>
+                            <td>INGLÉS V</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+    </div>
+
+</body>
+</html>
